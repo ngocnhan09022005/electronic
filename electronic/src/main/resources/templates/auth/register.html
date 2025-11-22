@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - Clothify</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="auth-container">
+    <div>
+        <h1>Đăng ký</h1>
+        <p style="text-align: center; color: var(--gray-600); margin-bottom: 2rem;">
+            Tạo tài khoản mới để bắt đầu mua sắm tại Clothify
+        </p>
+        
+        <div th:if="${error}" class="error" th:text="${error}"></div>
+        <div th:if="${success}" class="success" th:text="${success}"></div>
+        
+        <form method="post" th:action="@{/register}">
+            <label>
+                Tên đăng nhập *
+                <input type="text" name="username" required autofocus placeholder="Chọn tên đăng nhập" />
+            </label>
+            
+            <label>
+                Mật khẩu *
+                <input type="password" name="password" required placeholder="Tối thiểu 6 ký tự" minlength="6" />
+            </label>
+            
+            <label>
+                Email (tùy chọn)
+                <input type="email" name="email" placeholder="email@example.com" />
+            </label>
+            
+            <button type="submit" class="btn secondary" style="width: 100%;">
+                Đăng ký
+            </button>
+            
+            <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+                <p style="color: var(--gray-600); margin-bottom: 0.5rem;">Đã có tài khoản?</p>
+                <a th:href="@{/login}" style="color: var(--primary); font-weight: 600;">Đăng nhập ngay</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

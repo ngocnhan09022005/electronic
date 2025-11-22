@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Clothify</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar" style="background: var(--gray-900);">
+    <div class="navbar-content">
+        <a th:href="@{/admin}" class="navbar-brand" style="color: white;">Admin Panel</a>
+        <div class="navbar-links">
+            <span style="color: white;" th:if="${session.username != null}">
+                Xin chào, <strong th:text="${session.username}"></strong>
+            </span>
+            <a th:href="@{/admin/products}" class="btn inline" style="background: var(--gray-700);">Sản phẩm</a>
+            <a th:href="@{/admin/orders}" class="btn inline" style="background: var(--gray-700);">Đơn hàng</a>
+            <a th:href="@{/admin/inventory}" class="btn inline" style="background: var(--gray-700);">Kho</a>
+            <a th:href="@{/logout}" class="btn inline" style="background: var(--error);">Đăng xuất</a>
+        </div>
+    </div>
+</nav>
+
+<header class="hero small" style="background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%);">
+    <div>
+        <p class="eyebrow">Bảng điều khiển quản trị</p>
+        <h1>Tổng quan cửa hàng</h1>
+        <p style="opacity: 0.9;">Quản lý sản phẩm, đơn hàng và kho hàng của bạn</p>
+    </div>
+</header>
+
+<!-- Revenue Statistics -->
+<section class="section">
+    <div class="section-head">
+        <h2>Thống kê doanh thu</h2>
+    </div>
+    <div class="grid cards-3">
+        <article class="card kpi">
+            <p class="eyebrow">Tổng doanh thu</p>
+            <h2 th:text="${#numbers.formatDecimal(dashboard.totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</h2>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin: 0;">Tất cả thời gian</p>
+        </article>
+        <article class="card kpi">
+            <p class="eyebrow">Doanh thu hôm nay</p>
+            <h2 th:text="${#numbers.formatDecimal(dashboard.todayRevenue, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</h2>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin: 0;">Hôm nay</p>
+        </article>
+        <article class="card kpi">
+            <p class="eyebrow">Doanh thu tháng này</p>
+            <h2 th:text="${#numbers.formatDecimal(dashboard.monthRevenue, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</h2>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin: 0;">Tháng hiện tại</p>
+        </article>
+    </div>
+</section>
+
+<!-- Order Statistics -->
+<section class="section" style="background: var(--gray-50);">
+    <div class="section-head">
+        <h2>Thống kê đơn hàng</h2>
+        <p>Click vào từng thẻ để xem chi tiết</p>
+    </div>
+    <div class="grid cards-4">
+        <article class="card kpi" style="cursor: pointer; transition: all 0.3s;" 
+                 onclick="window.location.href='/admin/orders'"
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)';"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)';">
+            <p class="eyebrow">Tổng đơn hàng</p>
+            <h2 th:text="${dashboard.totalOrders}">0</h2>
+        </article>
+        <article class="card kpi" style="cursor: pointer; transition: all 0.3s;" 
+                 onclick="window.location.href='/admin/orders?status=PENDING'"
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)';"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)';">
+            <p class="eyebrow">Chờ xử lý</p>
+            <h2 th:text="${dashboard.pendingOrders}">0</h2>
+        </article>
+        <article class="card kpi" style="cursor: pointer; transition: all 0.3s;" 
+                 onclick="window.location.href='/admin/orders?status=DELIVERED'"
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)';"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)';">
+            <p class="eyebrow">Đã giao hàng</p>
+            <h2 th:text="${dashboard.completedOrders}">0</h2>
+        </article>
+        <article class="card kpi" style="cursor: pointer; transition: all 0.3s;" 
+                 onclick="window.location.href='/admin/orders?status=CANCELLED'"
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)';"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)';">
+            <p class="eyebrow">Đã hủy</p>
+            <h2 th:text="${dashboard.cancelledOrders}">0</h2>
+        </article>
+    </div>
+</section>
+
+<!-- Product Statistics -->
+<section class="section">
+    <div class="section-head">
+        <h2>Thống kê sản phẩm</h2>
+    </div>
+    <div class="grid cards-3">
+        <article class="card kpi">
+            <p class="eyebrow">Tổng sản phẩm</p>
+            <h2 th:text="${dashboard.totalProducts}">0</h2>
+        </article>
+        <article class="card kpi">
+            <p class="eyebrow">Sản phẩm nổi bật</p>
+            <h2 th:text="${dashboard.featuredProducts}">0</h2>
+        </article>
+        <article class="card kpi">
+            <p class="eyebrow">Hết hàng</p>
+            <h2 th:text="${dashboard.outOfStockProducts}">0</h2>
+        </article>
+    </div>
+</section>
+
+<!-- Latest Products -->
+<section class="section" style="background: var(--gray-50);">
+    <div class="section-head">
+        <h2>Sản phẩm mới cập nhật</h2>
+    </div>
+    <div class="table">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên sản phẩm</th>
+                <th>Loại</th>
+                <th>Giá</th>
+                <th>Tồn kho</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${dashboard.latestProducts}">
+                <td th:text="${item.id}">1</td>
+                <td>
+                    <strong th:text="${item.name}">Tên sản phẩm</strong>
+                </td>
+                <td>
+                    <span class="badge info" th:text="${item.type.displayName}">Loại</span>
+                </td>
+                <td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</td>
+                <td>
+                    <span th:if="${item.stock > 0}" class="badge success" th:text="${item.stock}">0</span>
+                    <span th:if="${item.stock <= 0}" class="badge error">Hết hàng</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

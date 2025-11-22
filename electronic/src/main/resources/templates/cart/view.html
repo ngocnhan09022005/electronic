@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng - Clothify</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="hero small">
+    <div class="hero-content">
+        <p class="eyebrow">Giỏ hàng</p>
+        <h1>Giỏ hàng của tôi</h1>
+        <p style="opacity: 0.9;" th:if="${itemCount > 0}">
+            Bạn có <strong th:text="${itemCount}">0</strong> sản phẩm trong giỏ hàng
+        </p>
+    </div>
+</header>
+
+<section class="section">
+    <div th:if="${success}" class="alert success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert error" th:text="${error}"></div>
+    
+    <div th:if="${itemCount > 0}">
+        <div class="table">
+            <table>
+                <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cartItem : ${cartItems}">
+                    <td>
+                        <strong th:text="${cartItem.item.name}">Tên sản phẩm</strong><br>
+                        <small style="color: var(--gray-600);" th:text="${cartItem.item.description}">Mô tả</small>
+                    </td>
+                    <td th:text="${#numbers.formatDecimal(cartItem.item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</td>
+                    <td>
+                        <form th:action="@{/cart/update}" method="post" style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="hidden" name="itemId" th:value="${cartItem.item.id}">
+                            <input type="number" name="quantity" th:value="${cartItem.quantity}" min="1" 
+                                   max="100" style="width: 80px; padding: 0.5rem; border-radius: 8px; border: 2px solid var(--gray-300);">
+                            <button type="submit" class="btn inline" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Cập nhật</button>
+                        </form>
+                    </td>
+                    <td>
+                        <strong style="color: var(--primary-red); font-size: 1.1rem;" 
+                                th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</strong>
+                    </td>
+                    <td>
+                        <form th:action="@{/cart/remove}" method="post" style="display: inline;">
+                            <input type="hidden" name="itemId" th:value="${cartItem.item.id}">
+                            <button type="submit" class="btn danger" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                                Xóa
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr style="background: var(--gray-50); font-weight: 700;">
+                    <td colspan="3" style="text-align: right; padding: 1.5rem; font-size: 1.2rem;">Tổng cộng:</td>
+                    <td colspan="2" style="padding: 1.5rem; font-size: 1.5rem; color: var(--primary-red);">
+                        <span th:text="${#numbers.formatDecimal(cartTotal, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</span>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <form th:action="@{/cart/clear}" method="post" style="display: inline;">
+                <button type="submit" class="btn ghost" 
+                        onclick="return confirm('Bạn có chắc muốn xóa toàn bộ giỏ hàng?');"
+                        style="background: var(--gray-200); color: var(--gray-800);">
+                    🗑️ Xóa toàn bộ
+                </button>
+            </form>
+            <a class="btn secondary" th:href="@{/checkout}" style="padding: 1rem 2rem; font-size: 1.1rem;">
+                💳 Thanh toán ngay
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${itemCount == 0}" style="text-align: center; padding: 4rem 2rem;">
+        <div class="card" style="max-width: 500px; margin: 0 auto;">
+            <h2 style="color: var(--gray-700);">🛒 Giỏ hàng của bạn đang trống</h2>
+            <p style="color: var(--gray-600); margin-bottom: 2rem;">
+                Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm!
+            </p>
+            <a class="btn secondary" th:href="@{/shop/home}" style="width: 100%;">
+                Tiếp tục mua sắm
+            </a>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

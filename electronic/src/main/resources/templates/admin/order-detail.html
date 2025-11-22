@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết đơn hàng - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="hero small">
+    <div>
+        <p class="eyebrow">Khu vực quản trị</p>
+        <h1>Chi tiết đơn hàng: <span th:text="${order.orderCode}">ORD-000000</span></h1>
+        <a class="btn ghost" th:href="@{/admin/orders}">← Quay lại</a>
+    </div>
+</header>
+
+<section class="section">
+    <div th:if="${success}" class="alert success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert error" th:text="${error}"></div>
+    
+    <div style="max-width: 800px;">
+        <h2>Thông tin đơn hàng</h2>
+        <table class="table">
+            <tr>
+                <th>Mã đơn hàng</th>
+                <td th:text="${order.orderCode}">ORD-000000</td>
+            </tr>
+            <tr>
+                <th>Ngày tạo</th>
+                <td th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2024</td>
+            </tr>
+            <tr>
+                <th>Khách hàng ID</th>
+                <td th:text="${order.userId != null ? order.userId : 'Khách vãng lai'}">1</td>
+            </tr>
+            <tr>
+                <th>Tổng tiền</th>
+                <td><strong th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</strong></td>
+            </tr>
+            <tr>
+                <th>Phương thức thanh toán</th>
+                <td th:text="${order.paymentMethod != null ? order.paymentMethod.displayName : 'N/A'}">N/A</td>
+            </tr>
+            <tr>
+                <th>Trạng thái thanh toán</th>
+                <td>
+                    <form style="display: inline;" th:action="@{'/admin/orders/' + ${order.id} + '/payment-status'}" method="post">
+                        <select name="status" onchange="this.form.submit()">
+                            <option th:each="ps : ${paymentStatuses}" 
+                                    th:value="${ps.name()}" 
+                                    th:selected="${order.paymentStatus == ps}"
+                                    th:text="${ps.name()}">PENDING</option>
+                        </select>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <th>Trạng thái đơn hàng</th>
+                <td>
+                    <form style="display: inline;" th:action="@{'/admin/orders/' + ${order.id} + '/status'}" method="post">
+                        <select name="status" onchange="this.form.submit()">
+                            <option th:each="s : ${statuses}" 
+                                    th:value="${s.name()}" 
+                                    th:selected="${order.orderStatus == s}"
+                                    th:text="${s.displayName}">Chờ xử lý</option>
+                        </select>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${order.shippingName != null}">
+                <th>Người nhận</th>
+                <td th:text="${order.shippingName}">Tên</td>
+            </tr>
+            <tr th:if="${order.shippingPhone != null}">
+                <th>Điện thoại</th>
+                <td th:text="${order.shippingPhone}">Số điện thoại</td>
+            </tr>
+            <tr th:if="${order.shippingAddress != null}">
+                <th>Địa chỉ</th>
+                <td th:text="${order.shippingAddress}">Địa chỉ</td>
+            </tr>
+        </table>
+
+        <h2 style="margin-top: 2rem;">Chi tiết sản phẩm</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${order.items}">
+                <td th:text="${item.clothingItemId}">1</td>
+                <td th:text="${item.quantity}">1</td>
+                <td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</td>
+                <td th:text="${#numbers.formatDecimal(item.subtotal, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>
+

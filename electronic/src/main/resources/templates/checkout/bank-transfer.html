@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán chuyển khoản - Clothify</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .bank-transfer-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .bank-info {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--radius-2xl);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+        .bank-info h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        .bank-info .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .bank-info .info-row:last-child {
+            border-bottom: none;
+        }
+        .bank-info .info-label {
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        .bank-info .info-value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .transaction-form {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+        }
+        .order-summary {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--radius-xl);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--gray-200);
+        }
+        .order-summary h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<header class="hero small">
+    <div>
+        <p class="eyebrow">Thanh toán chuyển khoản</p>
+        <h1>Xác nhận thanh toán ngân hàng</h1>
+    </div>
+</header>
+
+<section class="section">
+    <div class="bank-transfer-container">
+        <div th:if="${error}" class="alert error" th:text="${error}"></div>
+        <div th:if="${success}" class="alert success" th:text="${success}"></div>
+
+        <!-- Bank Account Information -->
+        <div class="bank-info">
+            <h3>💳 Thông tin tài khoản ngân hàng</h3>
+            <div class="info-row">
+                <span class="info-label">Số tài khoản:</span>
+                <span class="info-value" th:text="${bankAccountCode != null ? bankAccountCode : '970422'}">970422</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Chủ tài khoản:</span>
+                <span class="info-value">CÔNG TY TNHH CLOTHIFY</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Ngân hàng:</span>
+                <span class="info-value">Vietcombank</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Nội dung chuyển khoản:</span>
+                <span class="info-value" th:text="${summary != null ? summary.orderCode : 'ORD-000000'}">ORD-000000</span>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary" th:if="${summary != null}">
+            <h3>📦 Thông tin đơn hàng</h3>
+            <p><strong>Mã đơn hàng:</strong> <span th:text="${summary.orderCode}">ORD-000000</span></p>
+            <p style="font-size: 1.5rem; margin-top: 1rem;">
+                <strong>Tổng tiền cần thanh toán:</strong><br>
+                <span style="color: var(--primary); font-size: 2rem; font-weight: 800;" 
+                    th:text="${#numbers.formatDecimal(summary.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</span>
+            </p>
+        </div>
+
+        <!-- Transaction Form -->
+        <div class="transaction-form">
+            <h3>Xác nhận thanh toán</h3>
+            <p style="margin-bottom: 1.5rem; color: var(--gray-600); line-height: 1.8;">
+                Vui lòng chuyển khoản đúng số tiền và mã đơn hàng vào tài khoản trên, sau đó nhập mã giao dịch để xác nhận.
+            </p>
+            
+            <form th:action="@{/checkout/confirm-bank-transfer}" method="post">
+                <input type="hidden" name="orderCode" th:value="${summary != null ? summary.orderCode : ''}">
+                
+                <label>
+                    Mã đơn hàng
+                    <input type="text" 
+                           th:value="${summary != null ? summary.orderCode : ''}" 
+                           readonly 
+                           style="background: var(--gray-100);">
+                </label>
+
+                <label>
+                    Số tiền cần chuyển *
+                    <input type="text" 
+                           th:value="${summary != null ? #numbers.formatDecimal(summary.totalAmount, 0, 'COMMA', 0, 'POINT') : '0'}" 
+                           readonly 
+                           style="background: var(--gray-100); font-size: 1.5rem; font-weight: 700; color: var(--primary); text-align: center;">
+                    <small style="color: var(--gray-600); display: block; margin-top: 0.5rem;">
+                        ⚠️ Vui lòng chuyển đúng số tiền này
+                    </small>
+                </label>
+
+                <label>
+                    Mã giao dịch ngân hàng *
+                    <input type="text" 
+                           name="transactionCode" 
+                           placeholder="Nhập mã giao dịch từ ngân hàng (ví dụ: 1234567890)"
+                           required
+                           pattern="[0-9]+"
+                           minlength="6"
+                           maxlength="20"
+                           autofocus
+                           style="font-size: 1.1rem; padding: 1rem;">
+                    <small style="color: var(--gray-600); display: block; margin-top: 0.5rem;">
+                        Nhập mã giao dịch bạn nhận được từ ngân hàng sau khi chuyển khoản
+                    </small>
+                </label>
+
+                <button type="submit" class="btn secondary" style="width: 100%; margin-top: 1.5rem; padding: 1.25rem; font-size: 1.1rem;">
+                    ✅ Xác nhận thanh toán
+                </button>
+            </form>
+
+            <div style="margin-top: 2rem; padding: 1.5rem; background: #fff3cd; border-radius: var(--radius-lg); border-left: 4px solid var(--warning);">
+                <strong style="display: block; margin-bottom: 0.75rem; color: var(--warning);">📌 Lưu ý quan trọng:</strong>
+                <ul style="margin: 0; padding-left: 1.5rem; color: var(--gray-700); line-height: 1.8;">
+                    <li>Vui lòng chuyển khoản đúng số tiền và mã đơn hàng</li>
+                    <li>Sau khi chuyển khoản, nhập mã giao dịch để xác nhận</li>
+                    <li>Đơn hàng sẽ được tự động cập nhật trạng thái "Đã thanh toán" trong admin</li>
+                    <li>Nếu có vấn đề, vui lòng liên hệ hỗ trợ</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

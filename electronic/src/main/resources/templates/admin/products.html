@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sản phẩm - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="hero small">
+    <div>
+        <p class="eyebrow">Khu vực quản trị</p>
+        <h1>Quản lý sản phẩm</h1>
+        <div class="hero-actions">
+            <a class="btn ghost" th:href="@{/admin}">← Dashboard</a>
+            <a class="btn primary" th:href="@{/admin/products/add}">+ Thêm sản phẩm</a>
+            <a class="btn ghost" th:href="@{/admin/logout}">Đăng xuất</a>
+        </div>
+        <div style="margin-top: 1rem;">
+            <a th:href="@{/login}" th:if="${session.username == null}">Đăng nhập</a>
+            <span th:if="${session.username != null}">
+                Xin chào, <strong th:text="${session.username}"></strong> | 
+                <a th:href="@{/logout}">Đăng xuất</a>
+            </span>
+            <span th:if="${session.username == null}"> | <a th:href="@{/register}">Đăng ký</a></span>
+        </div>
+    </div>
+</header>
+
+<section class="section">
+    <div th:if="${success}" class="alert success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert error" th:text="${error}"></div>
+    
+    <div class="section-head">
+        <h2>Danh sách sản phẩm</h2>
+        <p>Tổng số: <strong th:text="${#lists.size(items)}">0</strong> sản phẩm</p>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Loại</th>
+            <th>Giá</th>
+            <th>Kho</th>
+            <th>Nổi bật</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.id}">1</td>
+            <td>
+                <strong th:text="${item.name}">Tên sản phẩm</strong><br>
+                <small th:text="${item.description}">Mô tả</small>
+            </td>
+            <td th:text="${item.type.displayName}">Loại</td>
+            <td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</td>
+            <td>
+                <span th:if="${item.stock > 0}" th:text="${item.stock}">0</span>
+                <span th:if="${item.stock <= 0}" style="color: red;">Hết hàng</span>
+            </td>
+            <td>
+                <span th:if="${item.featured}">✓</span>
+                <span th:if="${!item.featured}">-</span>
+            </td>
+            <td>
+                <a class="btn inline" th:href="@{'/admin/products/edit/' + ${item.id}}">Sửa</a>
+                <form style="display: inline;" th:action="@{'/admin/products/delete/' + ${item.id}}" method="post" 
+                      onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+                    <button type="submit" class="btn inline" style="background: red;">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(items)}">
+            <td colspan="7" style="text-align: center;">Chưa có sản phẩm nào</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${itemId != null ? 'Sửa sản phẩm' : 'Thêm sản phẩm'} - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="hero small">
+    <div>
+        <p class="eyebrow">Khu vực quản trị</p>
+        <h1 th:text="${itemId != null ? 'Sửa sản phẩm' : 'Thêm sản phẩm mới'}">Thêm sản phẩm</h1>
+        <a class="btn ghost" th:href="@{/admin/products}">← Quay lại</a>
+    </div>
+</header>
+
+<section class="section">
+    <form th:action="${itemId != null ? '/admin/products/edit/' + itemId : '/admin/products/add'}" 
+          method="post" th:object="${item}">
+        <div th:if="${error}" class="alert error" th:text="${error}"></div>
+        
+        <div style="max-width: 600px;">
+            <div style="margin-bottom: 1rem;">
+                <label>Tên sản phẩm *</label>
+                <input type="text" th:field="*{name}" required style="width: 100%; padding: 0.5rem;">
+                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>Mô tả</label>
+                <textarea th:field="*{description}" style="width: 100%; padding: 0.5rem; min-height: 100px;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>Giá *</label>
+                <input type="number" th:field="*{price}" step="0.01" min="0" required style="width: 100%; padding: 0.5rem;">
+                <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>Loại sản phẩm *</label>
+                <select th:field="*{type}" required style="width: 100%; padding: 0.5rem;">
+                    <option value="">-- Chọn loại --</option>
+                    <option th:each="type : ${types}" 
+                            th:value="${type}" 
+                            th:text="${type.displayName}">Loại</option>
+                </select>
+                <div th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>URL hình ảnh</label>
+                <input type="url" th:field="*{imageUrl}" style="width: 100%; padding: 0.5rem;">
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>Số lượng trong kho *</label>
+                <input type="number" th:field="*{stock}" min="0" required style="width: 100%; padding: 0.5rem;">
+                <div th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>
+                    <input type="checkbox" th:field="*{featured}">
+                    Sản phẩm nổi bật
+                </label>
+            </div>
+
+            <div>
+                <button type="submit" class="btn primary">Lưu</button>
+                <a class="btn ghost" th:href="@{/admin/products}">Hủy</a>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>
+

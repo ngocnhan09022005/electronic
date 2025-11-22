@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothify - Cửa hàng thời trang</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        @media (max-width: 1024px) {
+            .black-friday-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            .black-friday-right {
+                align-items: center;
+                text-align: center;
+            }
+            .black-friday-prices {
+                justify-content: center;
+            }
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+            .carousel-arrow-left {
+                left: 1rem;
+            }
+            .carousel-arrow-right {
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Top Customer Service Section -->
+<section class="customer-service-section">
+    <div class="customer-service-grid">
+        <div class="service-card">
+            <div class="service-icon blue">
+                <svg viewBox="0 0 24 24" fill="white" width="32" height="32">
+                    <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                </svg>
+            </div>
+            <div class="service-text">
+                <strong>Miễn phí vận chuyển</strong>
+                <span>đơn từ 99K</span>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon blue">
+                <svg viewBox="0 0 24 24" fill="white" width="32" height="32">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+            </div>
+            <div class="service-text">
+                <strong>Đổi hàng tận nhà</strong>
+                <span>Trong vòng 15 ngày</span>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon blue">
+                <div style="font-size: 1.2rem; font-weight: 800; color: white;">COD</div>
+            </div>
+            <div class="service-text">
+                <strong>Thanh toán COD</strong>
+                <span>Yên tâm mua sắm</span>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon blue">
+                <svg viewBox="0 0 24 24" fill="white" width="32" height="32">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+            </div>
+            <div class="service-text">
+                <strong>Hotline: 028.73066.060</strong>
+                <span>Hỗ trợ bạn từ 8h30-24h00</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Black Friday Title Section -->
+<section class="black-friday-title-section">
+    <h1>ƯU ĐÃI BLACK FRIDAY</h1>
+</section>
+
+<!-- Voucher Cards Section -->
+<section class="voucher-section">
+    <div class="voucher-grid">
+        <div class="voucher-card">
+            <div class="voucher-label">VOUCHER</div>
+            <div class="voucher-content">
+                <div class="voucher-main">50K</div>
+                <div class="voucher-sub">ĐƠN TỪ 599K</div>
+            </div>
+        </div>
+        
+        <div class="voucher-card">
+            <div class="voucher-label">VOUCHER</div>
+            <div class="voucher-content">
+                <div class="voucher-main">10%</div>
+                <div class="voucher-sub">ƯU ĐÃI TOÀN BỘ HÀNG MỚI</div>
+            </div>
+        </div>
+        
+        <div class="voucher-card">
+            <div class="voucher-label">VOUCHER</div>
+            <div class="voucher-content">
+                <div class="voucher-main">15%</div>
+                <div class="voucher-sub">LÊN ĐẾN<br>CỘNG DỒN MEMBERSHIP</div>
+            </div>
+        </div>
+        
+        <div class="voucher-card">
+            <div class="voucher-label">VOUCHER</div>
+            <div class="voucher-content">
+                <div class="voucher-main freeship">FREESHIP</div>
+                <div class="voucher-sub">ĐƠN HÀNG TỪ 99K</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Shop Section -->
+<section class="section about-shop-section">
+    <div class="about-shop-container">
+        <div class="about-shop-content">
+            <h1 class="about-shop-title">CLOTHIFY</h1>
+            <p class="about-shop-subtitle">Cửa hàng thời trang hiện đại</p>
+            <p class="about-shop-description">
+                Chào mừng bạn đến với CLOTHIFY - điểm đến lý tưởng cho những ai yêu thích thời trang. 
+                Chúng tôi mang đến những sản phẩm chất lượng cao với thiết kế hiện đại, phù hợp với mọi phong cách.
+            </p>
+            <div class="about-shop-features">
+                <div class="feature-item">
+                    <h3>✨ Chất lượng cao</h3>
+                    <p>Sản phẩm được chọn lọc kỹ lưỡng</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🚚 Giao hàng nhanh</h3>
+                    <p>Miễn phí vận chuyển từ 99K</p>
+                </div>
+                <div class="feature-item">
+                    <h3>💳 Thanh toán linh hoạt</h3>
+                    <p>Nhiều phương thức thanh toán</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-shop-form">
+            <div class="form-card">
+                <h2>Liên hệ với chúng tôi</h2>
+                <p style="color: var(--gray-600); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Để lại thông tin để nhận tư vấn và ưu đãi đặc biệt
+                </p>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="contactName">Họ và tên *</label>
+                        <input type="text" id="contactName" name="name" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email *</label>
+                        <input type="email" id="contactEmail" name="email" placeholder="email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone">Số điện thoại</label>
+                        <input type="tel" id="contactPhone" name="phone" placeholder="090 xxx xxxx">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Tin nhắn</label>
+                        <textarea id="contactMessage" name="message" rows="4" placeholder="Nhập tin nhắn của bạn..."></textarea>
+                    </div>
+                    <button type="submit" class="btn secondary" style="width: 100%; padding: 0.75rem; font-size: 0.9rem;">
+                        Gửi tin nhắn
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Promotional Programs Section -->
+<section class="section" style="background: var(--gray-50);">
+    <div class="section-head">
+        <h2>Chương trình khuyến mãi</h2>
+        <p>Ưu đãi đặc biệt dành cho bạn</p>
+    </div>
+    <div class="grid cards-3">
+        <article class="card promo-card">
+            <img src="https://source.unsplash.com/random/400x300?discount" alt="Đồng giá lớn nhất năm" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+            <p class="eyebrow" style="color: var(--primary-red);">⚡ KHUYẾN MÃI</p>
+            <h3>Đồng giá lớn nhất năm</h3>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                99K, 149K, 199K - Cơ hội mua sắm với giá tốt nhất trong năm
+            </p>
+            <div style="margin-top: 1rem;">
+                <span class="badge success" style="font-size: 0.8rem;">Đang diễn ra</span>
+            </div>
+            <a class="btn inline" href="#categories" style="margin-top: 1rem; width: 100%; text-align: center; display: block;">
+                Xem ngay →
+            </a>
+        </article>
+        
+        <article class="card promo-card">
+            <img src="https://source.unsplash.com/random/400x301?gift" alt="Thẻ đen quyền lực" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+            <p class="eyebrow" style="color: var(--primary-red);">🎁 QUÀ TẶNG</p>
+            <h3>Thẻ đen quyền lực</h3>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                Trị giá 10.000.000Đ - Cơ hội nhận thẻ VIP với nhiều đặc quyền
+            </p>
+            <div style="margin-top: 1rem;">
+                <span class="badge success" style="font-size: 0.8rem;">Đang diễn ra</span>
+            </div>
+            <a class="btn inline" href="#categories" style="margin-top: 1rem; width: 100%; text-align: center; display: block;">
+                Xem ngay →
+            </a>
+        </article>
+        
+        <article class="card promo-card">
+            <img src="https://source.unsplash.com/random/400x302?shopping" alt="Giỏ hàng 0Đ" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+            <p class="eyebrow" style="color: var(--primary-red);">🛒 ƯU ĐÃI</p>
+            <h3>Giỏ hàng 0Đ</h3>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                Trị giá 5.000.000Đ - Tặng voucher mua sắm miễn phí
+            </p>
+            <div style="margin-top: 1rem;">
+                <span class="badge success" style="font-size: 0.8rem;">Đang diễn ra</span>
+            </div>
+            <a class="btn inline" href="#categories" style="margin-top: 1rem; width: 100%; text-align: center; display: block;">
+                Xem ngay →
+            </a>
+        </article>
+        
+        <article class="card promo-card">
+            <img src="https://source.unsplash.com/random/400x303?percent" alt="Ưu đãi 10%" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+            <p class="eyebrow" style="color: var(--primary-red);">🔥 GIẢM GIÁ</p>
+            <h3>Ưu đãi 10% hàng mới</h3>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                Giảm 10% cho toàn bộ hàng mới về - Áp dụng ngay hôm nay
+            </p>
+            <div style="margin-top: 1rem;">
+                <span class="badge success" style="font-size: 0.8rem;">Đang diễn ra</span>
+            </div>
+            <a class="btn inline" href="#categories" style="margin-top: 1rem; width: 100%; text-align: center; display: block;">
+                Xem ngay →
+            </a>
+        </article>
+        
+        <article class="card promo-card">
+            <img src="https://source.unsplash.com/random/400x304?membership" alt="Membership 15%" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+            <p class="eyebrow" style="color: var(--primary-red);">⭐ THÀNH VIÊN</p>
+            <h3>Cộng dồn Membership 15%</h3>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                Tích điểm và nhận ưu đãi lên đến 15% cho thành viên
+            </p>
+            <div style="margin-top: 1rem;">
+                <span class="badge success" style="font-size: 0.8rem;">Đang diễn ra</span>
+            </div>
+            <a class="btn inline" href="#categories" style="margin-top: 1rem; width: 100%; text-align: center; display: block;">
+                Xem ngay →
+            </a>
+        </article>
+        
+        <article class="card promo-card">
+            <img src="https://source.unsplash.com/random/400x305?shipping" alt="Freeship" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+            <p class="eyebrow" style="color: var(--primary-red);">🚚 VẬN CHUYỂN</p>
+            <h3>Freeship đơn từ 99K</h3>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                Miễn phí vận chuyển cho đơn hàng từ 99.000Đ trở lên
+            </p>
+            <div style="margin-top: 1rem;">
+                <span class="badge success" style="font-size: 0.8rem;">Đang diễn ra</span>
+            </div>
+            <a class="btn inline" href="#categories" style="margin-top: 1rem; width: 100%; text-align: center; display: block;">
+                Xem ngay →
+            </a>
+        </article>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="section" id="categories">
+    <div class="section-head">
+        <h2>Danh mục sản phẩm</h2>
+        <p>Chọn loại sản phẩm bạn yêu thích</p>
+    </div>
+    <div class="grid cards-3">
+        <article class="card" th:each="category : ${categories}">
+            <p class="eyebrow" th:text="${category.displayName}">Áo tay dài</p>
+            <h3 th:text="${category.description}">Mô tả</h3>
+            <p style="color: var(--gray-600);" th:text="'Số lượng: ' + ${category.itemCount} + ' sản phẩm'">0 sản phẩm</p>
+            <a class="btn inline" th:href="@{'/shop/category/' + ${category.type.slug}}">
+                Xem bộ sưu tập →
+            </a>
+        </article>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="section" style="background: var(--gray-50);">
+    <div class="section-head">
+        <h2>Sản phẩm nổi bật</h2>
+        <p>Hàng mới cập nhật trong tuần này</p>
+    </div>
+    <div class="grid cards-3">
+        <article class="card" th:each="item : ${featuredItems}">
+            <img th:src="${item.imageUrl}" th:alt="${item.name}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+            <p class="eyebrow" th:text="${item.type.displayName}">Loại</p>
+            <h3 th:text="${item.name}">Tên sản phẩm</h3>
+            <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.75rem;" th:text="${item.description}">Mô tả</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--gray-200);">
+                <span style="font-size: 0.95rem; font-weight: 700; color: var(--primary-red);" th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</span>
+                <span th:if="${item.stock > 0}" class="badge success" th:text="'Còn ' + ${item.stock}">Còn hàng</span>
+                <span th:if="${item.stock <= 0}" class="badge error">Hết hàng</span>
+            </div>
+            <form th:if="${item.stock > 0 && session.username != null}" th:action="@{/cart/add}" method="post">
+                <input type="hidden" name="itemId" th:value="${item.id}">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="btn inline" style="width: 100%;">Thêm vào giỏ</button>
+            </form>
+            <a th:if="${item.stock > 0 && session.username == null}" class="btn inline" th:href="@{/login}" style="width: 100%; text-align: center; display: block;">
+                Đăng nhập để mua
+            </a>
+        </article>
+    </div>
+</section>
+
+<script>
+    // Form submission handler
+    document.querySelector('.contact-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.');
+        this.reset();
+    });
+</script>
+
+</body>
+</html>

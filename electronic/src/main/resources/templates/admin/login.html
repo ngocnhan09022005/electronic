@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập Admin - Clothify</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .admin-login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 2rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .admin-login-container h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        .admin-login-container form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .admin-login-container form input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .admin-login-container .error {
+            background: #fee;
+            color: #c33;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .admin-login-container .info {
+            background: #e8f4f8;
+            color: #006;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .admin-login-container button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #006;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        .admin-login-container button:hover {
+            background: #004;
+        }
+        .admin-login-container .links {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .admin-login-container .links a {
+            color: #006;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+        .admin-login-container .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="admin-login-container">
+    <h1>🔐 Đăng nhập Admin</h1>
+    <div class="info">
+        <strong>Khu vực quản trị</strong><br>
+        Chỉ dành cho nhân viên quản lý. Vui lòng đăng nhập để tiếp tục.
+    </div>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <form method="post" th:action="@{/admin/login}">
+        <input type="hidden" th:if="${redirect}" th:name="redirect" th:value="${redirect}">
+        <label>Tên đăng nhập</label>
+        <input type="text" name="username" required autofocus />
+        <label>Mật khẩu</label>
+        <input type="password" name="password" required />
+        <button type="submit">Đăng nhập</button>
+    </form>
+    <div class="links">
+        <a th:href="@{/login}">Đăng nhập khách hàng</a> |
+        <a th:href="@{/shop}">Về trang chủ</a>
+    </div>
+</div>
+</body>
+</html>
+

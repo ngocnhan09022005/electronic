@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt hàng thành công - Clothify</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="hero small center" style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%);">
+    <div>
+        <p class="eyebrow">Thanh toán thành công</p>
+        <h1>🎉 Cảm ơn bạn đã đặt hàng!</h1>
+        <p style="font-size: 1.25rem; opacity: 0.95;" th:if="${summary != null}">
+            Mã đơn hàng: <strong th:text="${summary.orderCode}">ORD-000000</strong>
+        </p>
+        <p style="font-size: 1.5rem; font-weight: 700; margin-top: 1rem;" th:if="${summary != null}">
+            Tổng tiền: <span th:text="${#numbers.formatDecimal(summary.totalAmount,0,'COMMA',0,'POINT')} + ' ₫'">0 ₫</span>
+        </p>
+        <div class="hero-actions">
+            <a class="btn primary" th:href="@{/shop/home}">Tiếp tục mua sắm</a>
+            <a class="btn ghost" th:href="@{/cart}">Xem giỏ hàng</a>
+        </div>
+    </div>
+</header>
+
+<section class="section" th:if="${summary != null && !summary.items.isEmpty()}">
+    <div class="section-head">
+        <h2>Sản phẩm trong đơn hàng</h2>
+    </div>
+    <div class="grid cards-3">
+        <article class="product-card" th:each="item : ${summary.items}">
+            <img th:src="${item.imageUrl}" th:alt="${item.name}">
+            <div>
+                <p class="eyebrow" th:text="${item.type.displayName}">Loại</p>
+                <h3 th:text="${item.name}">Tên</h3>
+                <p style="color: var(--gray-600); font-size: 0.875rem;" th:text="${item.description}">Mô tả</p>
+                <div class="product-meta">
+                    <span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</span>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="section" style="background: var(--gray-50); text-align: center;">
+    <div class="card" style="max-width: 600px; margin: 0 auto;">
+        <h3>Thông tin đơn hàng</h3>
+        <p style="color: var(--gray-600);" th:if="${summary != null}">
+            Phương thức thanh toán: <strong th:text="${summary.paymentMethod.displayName}">COD</strong>
+        </p>
+        <p style="color: var(--gray-600);" th:if="${summary != null}">
+            Trạng thái: <span class="badge success" th:text="${summary.paymentStatus.displayName}">Đã thanh toán</span>
+        </p>
+        <div style="margin-top: 2rem;">
+            <a class="btn secondary" th:href="@{/shop/home}" style="width: 100%;">
+                Tiếp tục mua sắm
+            </a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

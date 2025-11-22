@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý đơn hàng - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="hero small">
+    <div>
+        <p class="eyebrow">Khu vực quản trị</p>
+        <h1>Quản lý đơn hàng</h1>
+        <div class="hero-actions">
+            <a class="btn ghost" th:href="@{/admin}">← Dashboard</a>
+            <a class="btn ghost" th:href="@{/admin/logout}">Đăng xuất</a>
+        </div>
+        <div style="margin-top: 1rem;">
+            <a th:href="@{/login}" th:if="${session.username == null}">Đăng nhập</a>
+            <span th:if="${session.username != null}">
+                Xin chào, <strong th:text="${session.username}"></strong> | 
+                <a th:href="@{/logout}">Đăng xuất</a>
+            </span>
+            <span th:if="${session.username == null}"> | <a th:href="@{/register}">Đăng ký</a></span>
+        </div>
+    </div>
+</header>
+
+<section class="section">
+    <div th:if="${success}" class="alert success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert error" th:text="${error}"></div>
+    
+    <div class="section-head">
+        <h2>Danh sách đơn hàng</h2>
+        <form method="get" th:action="@{/admin/orders}" style="display: inline-block;">
+            <select name="status" onchange="this.form.submit()">
+                <option value="">Tất cả</option>
+                <option th:each="s : ${statuses}" 
+                        th:value="${s.name()}" 
+                        th:selected="${selectedStatus == s.name()}"
+                        th:text="${s.displayName}">Trạng thái</option>
+            </select>
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Mã đơn</th>
+            <th>Ngày tạo</th>
+            <th>Khách hàng ID</th>
+            <th>Tổng tiền</th>
+            <th>Thanh toán</th>
+            <th>Trạng thái đơn hàng</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td><strong th:text="${order.orderCode}">ORD-000000</strong></td>
+            <td th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2024</td>
+            <td th:text="${order.userId != null ? order.userId : 'Khách vãng lai'}">1</td>
+            <td><strong th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</strong></td>
+            <td>
+                <form style="display: inline;" th:action="@{'/admin/orders/' + ${order.id} + '/payment-status'}" method="post">
+                    <select name="status" onchange="this.form.submit()" style="padding: 0.25rem; font-size: 0.9rem;">
+                        <option th:each="ps : ${paymentStatuses}" 
+                                th:value="${ps.name()}" 
+                                th:selected="${order.paymentStatus == ps}"
+                                th:text="${ps.name()}">PENDING</option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                <form style="display: inline;" th:action="@{'/admin/orders/' + ${order.id} + '/status'}" method="post">
+                    <select name="status" onchange="this.form.submit()" style="padding: 0.25rem; font-size: 0.9rem;">
+                        <option th:each="s : ${statuses}" 
+                                th:value="${s.name()}" 
+                                th:selected="${order.orderStatus == s}"
+                                th:text="${s.displayName}">Chờ xử lý</option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                <a class="btn inline" th:href="@{'/admin/orders/' + ${order.id}}">Chi tiết</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(orders)}">
+            <td colspan="7" style="text-align: center;">Chưa có đơn hàng nào</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>
+

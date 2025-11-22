@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nhập kho - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="hero small">
+    <div>
+        <p class="eyebrow">Khu vực quản trị</p>
+        <h1>Nhập kho</h1>
+        <div class="hero-actions">
+            <a class="btn ghost" th:href="@{/admin}">← Dashboard</a>
+            <a class="btn ghost" th:href="@{/admin/products}">Quản lý sản phẩm</a>
+            <a class="btn ghost" th:href="@{/admin/logout}">Đăng xuất</a>
+        </div>
+        <div style="margin-top: 1rem;">
+            <a th:href="@{/login}" th:if="${session.username == null}">Đăng nhập</a>
+            <span th:if="${session.username != null}">
+                Xin chào, <strong th:text="${session.username}"></strong> | 
+                <a th:href="@{/logout}">Đăng xuất</a>
+            </span>
+            <span th:if="${session.username == null}"> | <a th:href="@{/register}">Đăng ký</a></span>
+        </div>
+    </div>
+</header>
+
+<section class="section">
+    <div th:if="${success}" class="alert success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert error" th:text="${error}"></div>
+    
+    <div style="max-width: 600px; margin-bottom: 2rem;">
+        <h2>Nhập kho mới</h2>
+        <form th:action="@{/admin/inventory/add}" method="post" th:object="${stockRequest}">
+            <div style="margin-bottom: 1rem;">
+                <label>Chọn sản phẩm *</label>
+                <select th:field="*{itemId}" required style="width: 100%; padding: 0.5rem;">
+                    <option value="">-- Chọn sản phẩm --</option>
+                    <option th:each="item : ${items}" 
+                            th:value="${item.id}" 
+                            th:text="${item.name + ' (Hiện có: ' + item.stock + ')'}">Tên sản phẩm</option>
+                </select>
+                <div th:if="${#fields.hasErrors('itemId')}" th:errors="*{itemId}"></div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>Số lượng nhập *</label>
+                <input type="number" th:field="*{newStock}" min="1" required 
+                       placeholder="Nhập số lượng cần thêm vào kho"
+                       style="width: 100%; padding: 0.5rem;">
+                <small>Lưu ý: Số lượng này sẽ được CỘNG vào số lượng hiện có trong kho</small>
+                <div th:if="${#fields.hasErrors('newStock')}" th:errors="*{newStock}"></div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn primary">Nhập kho</button>
+            </div>
+        </form>
+    </div>
+
+    <h2>Danh sách sản phẩm và tồn kho</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Loại</th>
+            <th>Giá</th>
+            <th>Tồn kho</th>
+            <th>Trạng thái</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.id}">1</td>
+            <td th:text="${item.name}">Tên sản phẩm</td>
+            <td th:text="${item.type.displayName}">Loại</td>
+            <td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</td>
+            <td><strong th:text="${item.stock}">0</strong></td>
+            <td>
+                <span th:if="${item.stock > 10}" style="color: green;">Còn hàng</span>
+                <span th:if="${item.stock > 0 && item.stock <= 10}" style="color: orange;">Sắp hết</span>
+                <span th:if="${item.stock <= 0}" style="color: red;">Hết hàng</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>
+

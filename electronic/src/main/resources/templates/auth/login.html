@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Clothify</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="auth-container">
+    <div>
+        <h1>Đăng nhập</h1>
+        <p style="text-align: center; color: var(--gray-600); margin-bottom: 2rem;">
+            Chào mừng trở lại! Vui lòng đăng nhập để tiếp tục mua sắm.
+        </p>
+        
+        <div th:if="${error}" class="error" th:text="${error}"></div>
+        <div th:if="${success}" class="success" th:text="${success}"></div>
+        
+        <form method="post" th:action="@{/login}">
+            <input type="hidden" th:if="${redirect}" th:name="redirect" th:value="${redirect}">
+            
+            <label>
+                Tên đăng nhập
+                <input type="text" name="username" required autofocus placeholder="Nhập tên đăng nhập của bạn" />
+            </label>
+            
+            <label>
+                Mật khẩu
+                <input type="password" name="password" required placeholder="Nhập mật khẩu của bạn" />
+            </label>
+            
+            <button type="submit" class="btn secondary" style="width: 100%;">
+                Đăng nhập
+            </button>
+            
+            <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+                <p style="color: var(--gray-600); margin-bottom: 0.5rem;">Chưa có tài khoản?</p>
+                <a th:href="@{/register}" style="color: var(--primary); font-weight: 600;">Đăng ký ngay</a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <a th:href="@{/admin/login}" style="color: var(--gray-600); font-size: 0.875rem;">
+                    Đăng nhập Admin →
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

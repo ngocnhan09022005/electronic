@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng trống - Clothify</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .empty-cart-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        .empty-cart-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        .empty-cart-container h1 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .empty-cart-container p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .info-box {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #006;
+        }
+        .info-box ul {
+            margin: 0.5rem 0 0 1.5rem;
+            padding: 0;
+        }
+        .info-box li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<header class="hero small">
+    <div>
+        <p class="eyebrow">Thanh toán</p>
+        <h1>Chưa có đơn hàng nào</h1>
+        <a class="btn ghost" th:href="@{/shop/home}">← Về trang chủ</a>
+    </div>
+</header>
+
+<section class="section">
+    <div class="empty-cart-container">
+        <div class="empty-cart-icon">🛒</div>
+        <h1>Giỏ hàng của bạn đang trống</h1>
+        <p>
+            Bạn chưa có sản phẩm nào trong giỏ hàng để thanh toán.<br>
+            Hãy thêm sản phẩm vào giỏ hàng trước khi tiếp tục!
+        </p>
+        
+        <div class="action-buttons">
+            <a class="btn primary" th:href="@{/shop/home}">
+                👈 Tiếp tục mua sắm
+            </a>
+            <a class="btn ghost" th:href="@{/cart}">
+                Xem giỏ hàng
+            </a>
+        </div>
+
+        <div class="info-box">
+            <h3>Hướng dẫn mua hàng:</h3>
+            <ul>
+                <li>Bước 1: Duyệt sản phẩm và chọn sản phẩm bạn muốn mua</li>
+                <li>Bước 2: Nhấn nút "Thêm vào giỏ" trên sản phẩm</li>
+                <li>Bước 3: Xem lại giỏ hàng và điều chỉnh số lượng nếu cần</li>
+                <li>Bước 4: Nhấn "Thanh toán" để hoàn tất đơn hàng</li>
+            </ul>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+

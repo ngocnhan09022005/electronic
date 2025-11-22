@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Danh mục - ' + ${category.displayName}">Danh mục</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="hero small">
+    <div>
+        <p class="eyebrow">Danh mục quần áo</p>
+        <h1 th:text="${category.displayName}">Tên danh mục</h1>
+        <a class="btn ghost" th:href="@{/shop}">← Quay lại trang chủ</a>
+    </div>
+</header>
+
+<section class="section">
+    <div class="grid cards-3">
+        <article class="product-card" th:each="item : ${items}">
+            <img th:src="${item.imageUrl}" th:alt="${item.name}">
+            <div>
+                <h3 th:text="${item.name}">Tên sản phẩm</h3>
+                <p th:text="${item.description}">Mô tả</p>
+                <div class="product-meta">
+                    <span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</span>
+                    <span th:if="${item.stock > 0}" th:text="'Kho: ' + ${item.stock}">Kho</span>
+                    <span th:if="${item.stock <= 0}" style="color: red;">Hết hàng</span>
+                    <div style="margin-top: 0.5rem;">
+                        <form th:if="${item.stock > 0}" th:action="@{/cart/add}" method="post" style="display: inline;">
+                            <input type="hidden" name="itemId" th:value="${item.id}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn inline">Thêm vào giỏ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+</body>
+</html>
+
